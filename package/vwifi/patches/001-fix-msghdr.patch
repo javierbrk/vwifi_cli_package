@@ -1,0 +1,11 @@
+--- a/src/cmonwirelessdevice.cc
++++ b/src/cmonwirelessdevice.cc
+@@ -207,7 +207,7 @@
+ 	char buf[IFLIST_REPLY_BUFFER];
+ 	struct iovec iov = { buf, sizeof(buf) };
+ 	struct sockaddr_nl snl;
+-	struct msghdr msg = { static_cast<void *>(&snl), sizeof(snl), &iov, 1, NULL, 0, 0 };
++	struct msghdr msg = { static_cast<void *>(&snl), sizeof(snl), &iov, 1, 0, 0, 0, 0, 0 };
+ 	struct nlmsghdr *nlmsgheader;
+ 
+ 	/* read the waiting message */

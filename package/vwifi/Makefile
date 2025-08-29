@@ -28,7 +28,7 @@ define Package/vwifi
   CATEGORY:=Network
   TITLE:=Virtual WiFi client for wireless device simulation
   URL:=https://github.com/Raizo62/vwifi
-  DEPENDS:=+libnl +libstdcpp6 +kmod-mac80211-hwsim +libpthread
+  DEPENDS:=+libnl +libstdcpp +kmod-mac80211-hwsim +libpthread
 endef
 
 define Package/vwifi/description
@@ -45,9 +45,6 @@ endef
 # Patch for struct msghdr
 define Build/Prepare
 	$(call Build/Prepare/Default)
-	$(SED) 's$$1, NULL, 0,$$1, 0, 0, 0, 0,$$' $(PKG_BUILD_DIR)/src/cmonwirelessdevice.cc
-	# Disable vsock if not available
-	$(SED) 's$$^#define ENABLE_VHOST$$//#define ENABLE_VHOST$$g' $(PKG_BUILD_DIR)/src/config.h
 endef
 
 CMAKE_OPTIONS += \
@@ -66,8 +63,8 @@ define Package/vwifi/install
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) ./files/etc/config/vwifi $(1)/etc/config/vwifi
 	
-	$(INSTALL_DIR) $(1)/etc/modules.d
-	$(INSTALL_DATA) ./files/etc/modules.d/80-mac80211-hwsim $(1)/etc/modules.d/80-mac80211-hwsim
+	$(INSTALL_DIR) $(1)/lib/modules.d
+	$(INSTALL_DATA) ./files/lib/modules.d/80-mac80211-hwsim $(1)/lib/modules.d/80-mac80211-hwsim
 endef
 
 define Package/vwifi/postinst
