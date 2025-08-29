@@ -1,0 +1,17 @@
+config vwifi 'config'
+	# Enable or disable the vwifi-client service
+	option enabled '0'
+	
+	# IP address of the vwifi server
+	# Change this address to your vwifi server IP
+	option server_ip '172.16.0.1'
+	
+	# Number of virtual radios to create
+	option number '1'
+	
+	# MAC prefix for virtual interfaces (optional)
+	# If left empty, they will be generated automatically
+	option mac_prefix '74:f8:f6:66'
+	
+	# Server port (if different from default)
+	# option port '9090'
