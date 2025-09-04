@@ -4,6 +4,13 @@ USE_PROCD=1
 START=99
 STOP=10
 
+log_msg() {
+    local level="$1"     # Log level: info, warn, err, debug
+    local msg="$2"       # Message to log
+    echo "$msg"          # Still shows on console
+    logger -t "vwifi-client" -p daemon.$level "$msg"  # Sends to syslog
+}
+
 start_service() {
 	local enabled server_ip number mac_prefix
 	
@@ -15,15 +22,20 @@ start_service() {
 	
 	[ "$enabled" = "1" ] || {
 		echo "vwifi-client is disabled in /etc/config/vwifi"
+		log_msg "warn" "vwifi-client is disabled "
+
 		return 1
 	}
 	
 	[ -n "$server_ip" ] || {
 		echo "Error: server_ip not configured in /etc/config/vwifi"
+		log_msg "info" "server_ip not configured"
+
 		return 1
 	}
 	
 	echo "Starting vwifi-client connecting to $server_ip with $number radio(s)"
+	log_msg "info" "Starting vwifi-client connecting to $server_ip with $number radio(s)"
 	
 	procd_open_instance
 	procd_set_param command /usr/sbin/vwifi-client
@@ -49,16 +61,7 @@ start_service() {
 stop_service() {
 	echo "Stopping vwifi-client"
 	# Clean up virtual radios if they exist
-	for iface in $(iw dev | awk '/Interface/ {print $2}' | grep -E '^wlan[0-9]+
-
-reload_service() {
-	stop
-	start
-}
-
-service_triggers() {
-	procd_add_reload_trigger "vwifi"
-}); do
+	for iface in $(iw dev | awk '/Interface/ {print $2}' | grep -E '^wlan[0-9]+$'); do
 		echo "Removing virtual interface $iface"
 		iw dev "$iface" del 2>/dev/null || true
 	done
