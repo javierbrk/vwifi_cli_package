@@ -16,6 +16,13 @@ To use it just:
 5. run make menuconfig to enable vwifi package 
 6. Build your image  
 
+## Configure
+
+uci set vwifi.config.server_ip=192.168.126.187
+uci set vwifi.config.mac_prefix="74:f8:f6:66"
+uci set vwifi.config.enabled='1'
+uci commit vwifi
+
 ## References
 
 - [vwifi GitHub Repository](https://github.com/Raizo62/vwifi)
