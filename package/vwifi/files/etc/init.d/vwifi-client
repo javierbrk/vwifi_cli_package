@@ -13,7 +13,8 @@ log_msg() {
 
 start_service() {
 	local enabled server_ip number mac_prefix
-	
+    insmod mac80211_hwsim radios=0
+    log_msg "info" "Re-inserted mac80211_hwsim module"
 	config_load vwifi
 	config_get enabled config 'enabled' '0'
 	config_get server_ip config 'server_ip' '172.16.0.1'
@@ -56,56 +57,12 @@ start_service() {
 	procd_set_param pidfile /var/run/vwifi-client.pid
 	
 	procd_close_instance
+    wifi config
+    wifi up
 }
 
 stop_service() {
-    echo "Stopping vwifi-client"
-    log_msg "info" "Stopping vwifi-client service"
-    
-    # First, try to stop the process using the PID file
-    if [ -f /var/run/vwifi-client.pid ]; then
-        local pid=$(cat /var/run/vwifi-client.pid 2>/dev/null)
-        if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null; then
-            echo "Terminating vwifi-client process (PID: $pid)"
-            kill "$pid" 2>/dev/null
-            
-            # Wait a moment for graceful shutdown
-            sleep 2
-            
-            # Force kill if still running
-            if kill -0 "$pid" 2>/dev/null; then
-                echo "Force killing vwifi-client process (PID: $pid)"
-                kill -9 "$pid" 2>/dev/null
-            fi
-        fi
-        rm -f /var/run/vwifi-client.pid
-    fi
-    
-    # Also kill any remaining vwifi-client processes by name
-    local remaining_pids=$(pgrep vwifi-client 2>/dev/null)
-    if [ -n "$remaining_pids" ]; then
-        echo "Killing remaining vwifi-client processes: $remaining_pids"
-        killall vwifi-client 2>/dev/null || true
-        sleep 1
-        # Force kill if still running
-        killall -9 vwifi-client 2>/dev/null || true
-    fi
-    
-    # Clean up virtual radios if they exist
-    for iface in $(iw dev 2>/dev/null | awk '/Interface/ {print $2}' | grep -E '^wlan[0-9]+$'); do
-        echo "Removing virtual interface $iface"
-        iw dev "$iface" del 2>/dev/null || true
-    done
-    
-    echo "vwifi-client stopped successfully"
-    log_msg "info" "vwifi-client service stopped"
-}
+    rmmod mac80211_hwsim || true
+    log_msg "info" "Stopped vwifi-client"
 
-reload_service() {
-	stop
-	start
-}
-
-service_triggers() {
-	procd_add_reload_trigger "vwifi"
 }
