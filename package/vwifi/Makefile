@@ -29,6 +29,7 @@ define Package/vwifi
   TITLE:=Virtual WiFi client for wireless device simulation
   URL:=https://github.com/Raizo62/vwifi
   DEPENDS:=+libnl +libstdcpp +kmod-mac80211-hwsim +libpthread
+  PKGFLAGS:=nonshared
 endef
 
 define Package/vwifi/description
@@ -67,6 +68,7 @@ define Package/vwifi/postinst
 if [ -z "$${IPKG_INSTROOT}" ]; then
 	# Configurar módulo mac80211_hwsim con 0 radios por defecto
 	echo "Configurando mac80211_hwsim..."
+	
 	
 	# Eliminar configuraciones de radio existentes si existen
 	uci -q delete wireless.radio0 2>/dev/null || true
