@@ -26,7 +26,7 @@ uci commit vwifi
 ```
 ```
 service vwifi-client start
-``
+``` 
 
 ## References
 
