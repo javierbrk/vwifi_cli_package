@@ -58,14 +58,8 @@ define Package/vwifi/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/vwifi-client $(1)/usr/sbin/
 	
-	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./files/etc/init.d/vwifi-client $(1)/etc/init.d/vwifi-client
-	
-	$(INSTALL_DIR) $(1)/etc/config
-	$(INSTALL_CONF) ./files/etc/config/vwifi $(1)/etc/config/vwifi
-	
-	$(INSTALL_DIR) $(1)/lib/modules.d
-	$(INSTALL_DATA) ./files/lib/modules.d/80-mac80211-hwsim $(1)/lib/modules.d/80-mac80211-hwsim
+	$(INSTALL_DIR) $(1)/etc/
+	$(CP) ./files/* $(1)/
 endef
 
 define Package/vwifi/postinst
