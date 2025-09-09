@@ -1,4 +1,0 @@
-# Configuration for mac80211_hwsim module
-# radios=0 means no radios will be created automatically
-# vwifi-client will handle creating radios as needed
-mac80211_hwsim radios=0

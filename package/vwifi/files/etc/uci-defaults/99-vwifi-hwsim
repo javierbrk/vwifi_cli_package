@@ -1,0 +1,2 @@
+#!/bin/sh
+echo "mac80211_hwsim radios=0" > /etc/modules.d/mac80211-hwsim
