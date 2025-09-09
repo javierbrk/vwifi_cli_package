@@ -17,11 +17,16 @@ To use it just:
 6. Build your image  
 
 ## Configure
-
+in the host before starting the service 
+```bash
 uci set vwifi.config.server_ip=192.168.126.187
 uci set vwifi.config.mac_prefix="74:f8:f6:66"
 uci set vwifi.config.enabled='1'
 uci commit vwifi
+```
+```
+service vwifi-client start
+``
 
 ## References
 
