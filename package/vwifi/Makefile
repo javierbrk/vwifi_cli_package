@@ -4,15 +4,12 @@ PKG_NAME:=vwifi
 PKG_VERSION:=1.0.0
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://github.com/Raizo62/vwifi/archive/refs/heads/master.zip
-PKG_HASH:=skip
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=master
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/Raizo62/vwifi.git
 
-PKG_MAINTAINER:=OpenWrt Developer <developer@openwrt.org>
+PKG_MAINTAINER:=javier jorge <jjorge@inti.gob.ar>
 PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=LICENSE
 
@@ -70,19 +67,17 @@ if [ -z "$${IPKG_INSTROOT}" ]; then
 	echo "Configurando mac80211_hwsim..."
 	
 	
-	# Eliminar configuraciones de radio existentes si existen
 	uci -q delete wireless.radio0 2>/dev/null || true
 	uci -q delete wireless.default_radio0 2>/dev/null || true
 	uci -q delete wireless.radio1 2>/dev/null || true
 	uci -q delete wireless.default_radio1 2>/dev/null || true
 	uci commit wireless 2>/dev/null || true
 	
-	# Habilitar el servicio
 	/etc/init.d/vwifi-client enable
 	
-	echo "vwifi instalado correctamente."
-	echo "Edite /etc/config/vwifi para configurar la dirección del servidor."
-	echo "Luego ejecute: /etc/init.d/vwifi-client start"
+	echo "vwifi  installed."
+	echo "Edit /etc/config/vwifi to update the server url."
+	echo "then run: /etc/init.d/vwifi-client start"
 fi
 endef
 
