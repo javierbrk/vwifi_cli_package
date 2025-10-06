@@ -13,7 +13,10 @@ log_msg() {
 
 start_service() {
 	local enabled server_ip number mac_prefix
-    insmod mac80211_hwsim radios=0
+	# First remove mac80211_hwsim
+	rmmod mac80211_hwsim
+	# Reinsert it with the correct amount of radios
+	insmod mac80211_hwsim radios=0
     log_msg "info" "Re-inserted mac80211_hwsim module"
 	config_load vwifi
 	config_get enabled config 'enabled' '0'
