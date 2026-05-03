@@ -1,11 +1,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vwifi
-PKG_VERSION:=1.0.0
+PKG_VERSION:=7.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_SOURCE_VERSION:=master
+PKG_SOURCE_VERSION:=4a9842e646c226a254df3300f1c98b86a947acd8
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/Raizo62/vwifi.git
 
@@ -13,7 +13,6 @@ PKG_MAINTAINER:=javier jorge <jjorge@inti.gob.ar>
 PKG_LICENSE:=GPL-2.0
 PKG_LICENSE_FILES:=LICENSE
 
-PKG_BUILD_DEPENDS:=libnl cmake/host
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
 
@@ -63,9 +62,8 @@ endef
 define Package/vwifi/postinst
 #!/bin/sh
 if [ -z "$${IPKG_INSTROOT}" ]; then
-	# Configurar módulo mac80211_hwsim con 0 radios por defecto
-	echo "Configurando mac80211_hwsim..."
-	
+	# Configure mac80211_hwsim module with 0 radios by default
+	echo "Configuring mac80211_hwsim with 0 radios..."
 	
 	uci -q delete wireless.radio0 2>/dev/null || true
 	uci -q delete wireless.default_radio0 2>/dev/null || true

@@ -11,8 +11,13 @@ To use it just:
 
 1. Clone OpenWRT 
 2. add the repo to the feeds.conf file
-3. run scripts/feeds update.a 
-4. run scripts/feeds install.a 
+
+
+src-git vwifi https://github.com/javierbrk/vwifi_cli_package.git
+
+
+3. run scripts/feeds update -a 
+4. run scripts/feeds install -a 
 5. run make menuconfig to enable vwifi package 
 6. Build your image  
 
