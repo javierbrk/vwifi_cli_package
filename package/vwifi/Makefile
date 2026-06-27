@@ -10,8 +10,7 @@ PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/Raizo62/vwifi.git
 
 PKG_MAINTAINER:=javier jorge <jjorge@inti.gob.ar>
-PKG_LICENSE:=GPL-2.0
-PKG_LICENSE_FILES:=LICENSE
+PKG_LICENSE:=LGPL-3.0-or-later
 
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
